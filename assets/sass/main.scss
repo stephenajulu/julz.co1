@@ -16,14 +16,16 @@ $color-gray-600: #2f3845 !default;
 $color-gray-700: #1f2937 !default;
 $color-gray-800: #18202a !default;
 $color-gray-900: #121920 !default;
-$color-accent:   #d8195e !default;
+$color-accent:   #542bff !default;
 
 // Alternative accent colors
 $accent-colors: (
+  julz:   #542bff,
+  purple: #542bff,
   blue:   #0c8aea,
   green:  #10b981,
   red:    #fa292a,
-  violet: #7c43a8,
+  violet: #542bff,
   yellow: #ed9700
 );
 

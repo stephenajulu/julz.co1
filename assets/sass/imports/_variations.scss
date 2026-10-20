@@ -33,6 +33,10 @@
     color: #fff;
   }
 
+  .navbar__logo img {
+    filter: invert(1);
+  }
+
   .text-block pre,
   .section__bg,
   .section--form form {

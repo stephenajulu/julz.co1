@@ -45,12 +45,13 @@ models:
         label: Accent color
         description: The accent color of the site
         options:
+          - purple
           - pink
           - green
           - blue
           - violet
           - yellow
-        default: pink
+        default: purple
         required: true
       - type: enum
         name: base_font

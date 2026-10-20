@@ -5,6 +5,7 @@
         <title>{{ if .Params.seo.title }}{{ $.Params.seo.title }}{{ else }}{{ print print $.Title " | " $.Site.Data.config.title }}{{ end }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#542bff" />
         <meta name="google" content="notranslate" />
         <meta name="description" content="{{ .Params.seo.description | default "" }}" />
         {{ if .Params.seo.robots }}
@@ -32,9 +33,12 @@
         {{ else if eq $font "karla" }}
         <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
         {{ end }}
-        <link rel="stylesheet" href="{{ (resources.Get "sass/main.scss" | resources.ToCSS (dict "indentWidth" 4 "outputStyle" "nested" "precision" 10 "targetPath" "css/main.css")).Permalink }}">
+        <link rel="stylesheet" href="{{ (resources.Get "sass/main.scss" | toCSS (dict "indentWidth" 4 "outputStyle" "nested" "precision" 10 "targetPath" "css/main.css")).Permalink }}">
         {{ if .Site.Data.config.favicon }}
-        <link rel="icon" href="{{ $.Site.Data.config.favicon | relURL }}">
+        <link rel="icon" type="image/svg+xml" href="{{ $.Site.Data.config.favicon | relURL }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ "images/favicon-32x32.png" | relURL }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | relURL }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}">
         {{ end }}
         
     </head>
