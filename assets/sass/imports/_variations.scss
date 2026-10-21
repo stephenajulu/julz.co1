@@ -1,7 +1,13 @@
 // Alternative palettes and accent colors
 .palette-dark {
-  background: $color-gray-900;
-  color: $color-gray-100;
+  background-color: #07080c;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(84, 43, 255, 0.08) 0%, transparent 65%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 60px 60px, 60px 60px;
+  background-attachment: fixed;
+  color: #e2e8f0;
 
   hr,
   th,
@@ -15,9 +21,23 @@
   input[type="url"],
   select,
   textarea,
-  .site-header,
   .site-footer {
-    border-color: $color-gray-700;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  // Sticky Header with Blur & Hairline Border
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(7, 8, 12, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 1.1em;
+    padding-bottom: 1.1em;
+    margin-bottom: 3.5em;
+    transition: all 0.3s ease;
   }
 
   h1,
@@ -33,14 +53,21 @@
     color: #fff;
   }
 
+  // White Inverted Logo with Electric Indigo Hover Glow
   .navbar__logo img {
     filter: invert(1);
+    transition: filter 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      filter: invert(1) drop-shadow(0 0 16px rgba(84, 43, 255, 0.85)) drop-shadow(0 0 4px #542bff);
+      transform: scale(1.03);
+    }
   }
 
   .text-block pre,
   .section__bg,
   .section--form form {
-    background: $color-gray-800;
+    background: #0e111a;
   }
 
   .button--icon,
@@ -54,41 +81,117 @@
   .project-card__subtitle,
   .project__subtitle,
   .section__subtitle {
-    color: $color-gray-400;
+    color: #94a3b8;
   }
 
   .form-select-wrap:before {
-    border-color: $color-gray-400;
+    border-color: #64748b;
   }
 
   .site-footer a:not(.button) {
-    border-bottom-color: rgba($color-gray-100, .4);
+    border-bottom-color: rgba(#f1f5f9, .4);
   }
 
   ::-webkit-input-placeholder {
-    color: $color-gray-500;
+    color: #475569;
   }
   
   ::-moz-placeholder {
-    color: $color-gray-500;
+    color: #475569;
     opacity: 1;
   }
   
   :-ms-input-placeholder {
-    color: $color-gray-500;
+    color: #475569;
   }
   
   ::-ms-input-placeholder {
-    color: $color-gray-500;
+    color: #475569;
   }
   
   ::placeholder {
-    color: $color-gray-500;
+    color: #475569;
   }
 
-  @media only screen and (min-width: 768px) {
-    .project-card__header {
-      background-color: $color-gray-800;
+  // Subtle Elevated Card / Shadow Surfaces
+  .project-card {
+    background: rgba(14, 18, 28, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: rgba(84, 43, 255, 0.4);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(84, 43, 255, 0.16);
+
+      .project-card__image img {
+        transform: scale(1.03);
+      }
+
+      .project-card__title {
+        color: #a58aff;
+      }
+    }
+
+    &__image {
+      overflow: hidden;
+      margin-bottom: 0;
+
+      &:before {
+        padding-top: 56.25%; // 16:9 widescreen ratio
+      }
+
+      img {
+        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+    }
+
+    &__header {
+      padding: 1.25rem 1.4rem 1.5rem;
+      background: rgba(11, 13, 20, 0.95);
+    }
+
+    &__title {
+      color: #ffffff;
+      transition: color 0.25s ease;
+    }
+
+    &__subtitle {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  }
+
+  .card {
+    background: rgba(14, 18, 28, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: rgba(84, 43, 255, 0.3);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(84, 43, 255, 0.12);
+    }
+  }
+
+  .button {
+    border-radius: 4px;
+    transition: all 0.25s ease;
+
+    &--primary {
+      border-color: #542bff;
+      box-shadow: 0 4px 18px rgba(84, 43, 255, 0.3);
+
+      &:hover {
+        box-shadow: 0 6px 24px rgba(84, 43, 255, 0.5);
+      }
     }
   }
 
@@ -98,7 +201,7 @@
     }
 
     .navbar__menu-container {
-      background: $color-gray-900;
+      background: #07080c;
     }
   }
 }

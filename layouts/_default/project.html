@@ -3,6 +3,11 @@
 <article class="project">
   <header class="project__header">
     <div class="container container--md">
+      {{ if .Params.category }}
+      <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #542bff; margin-bottom: 0.5rem;">
+        {{ .Params.category }}
+      </div>
+      {{ end }}
       <h1 class="project__title line-top">{{ .Params.title }}</h1>
       {{ if .Params.subtitle }}
       <div class="project__subtitle">
@@ -10,13 +15,22 @@
       </div>
       {{ end }}
     </div>
+    {{ if .Params.thumb_image }}
+    <div class="container container--lg" style="margin-top: 2rem; margin-bottom: 2.5rem;">
+      <div style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 12px 36px rgba(0,0,0,0.5);">
+        <img src="{{ .Params.thumb_image | relURL }}" alt="{{ .Params.title }}" style="width: 100%; height: auto; display: block;" />
+      </div>
+    </div>
+    {{ end }}
   </header>
   <div class="project__body">
+    <div class="container container--md">
       {{ range $section := .Params.sections }}
         {{ $include_dict := dict "section" $section "Site" $.Site }}
         {{ $component := print $section.type ".html" }}
         {{ partial $component $include_dict }}
       {{ end }}
+    </div>
   </div>
 </article>
 
@@ -31,7 +45,7 @@
     {{ if gt $project_index_length 0 }}
     <nav class="section section--portfolio">
       <div class="container container--lg">
-        <h2 class="section__title line-top">More Projects</h2>
+        <h2 class="section__title line-top">More Ventures</h2>
         <div class="grid portfolio-feed portfolio-feed--tiles">
           {{ if ne $curr_index 0 }}
             {{ $prev_project := index $projects_sorted $prev_index }}

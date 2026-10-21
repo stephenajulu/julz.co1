@@ -1,6 +1,6 @@
 {
-    "title": "Welcome to JULZ",
-    "color_scheme": "light",
+    "title": "JULZ",
+    "color_scheme": "dark",
     "accent_color": "purple",
     "base_font": "fraunces",
     "favicon": "images/favicon.svg",
@@ -11,7 +11,7 @@
         "has_nav": true,
         "nav_links": [
             {
-                "label": "Projects",
+                "label": "Ventures",
                 "url": "/portfolio/",
                 "style": "link"
             },
