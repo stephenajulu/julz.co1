@@ -8,35 +8,7 @@ sections:
       Let’s build something great together.<br>
 
       Complete our contact form or send us an email at
-      [email@example.com](mailto:email@example.com).
-
-
-      ***
-
-
-      ## Our Offices
-
-
-      ### San Francisco
-
-      1234 Some St.<br>
-
-      San Francisco, CA 12345<br>
-
-      1-234-556-7890<br>
-
-      [Get directions &rarr;](https://goo.gl/maps/eh6fn7JjMS4vYs337)
-
-
-      ### New York
-
-      1234 Some St.<br>
-
-      New York, NY 12345<br>
-
-      1-234-556-7890<br>
-
-      [Get directions &rarr;](https://goo.gl/maps/eh6fn7JjMS4vYs337)
+      [inquire@julz.co](mailto:alunje73@gmail.com).
     form_id: contactForm
     form_action: /thank-you
     form_fields:
