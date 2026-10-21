@@ -34,7 +34,10 @@
   </div>
 </article>
 
-{{ $projects_sorted := ((.Site.GetPage "section" "/portfolio").Pages).ByDate.Reverse }}
+{{ $projects_sorted := ((.Site.GetPage "section" "/portfolio").Pages).ByWeight }}
+{{ if not $projects_sorted }}
+  {{ $projects_sorted = ((.Site.GetPage "section" "/portfolio").Pages).ByDate.Reverse }}
+{{ end }}
 {{ $project_item_len := len $projects_sorted }}
 {{ range $project_item_idx, $project_item := $projects_sorted }}
   {{ if eq $project_item.RelPermalink $.RelPermalink }}

@@ -2,7 +2,7 @@
 title: TausiNode
 subtitle: Managed Open Source Infrastructure & Preloaded Hardware Appliances
 date: '2026-10-02'
-weight: 2
+weight: 4
 category: Hardware & Infrastructure
 brand_color: '#542bff'
 thumb_image: images/ventures/tausinode.png

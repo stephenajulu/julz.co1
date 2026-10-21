@@ -2,7 +2,7 @@
 title: Hyvaros
 subtitle: Autonomous AI & Intelligent Process Automation
 date: '2026-10-06'
-weight: 6
+weight: 7
 category: Artificial Intelligence
 brand_color: '#8f3fb3'
 thumb_image: images/ventures/hyvaros.png

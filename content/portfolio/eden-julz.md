@@ -2,7 +2,7 @@
 title: Eden Julz
 subtitle: Biophilic Real Estate & Edenic Architectural Systems
 date: '2026-10-11'
-weight: 11
+weight: 12
 category: Sustainable Real Estate
 brand_color: '#10b981'
 thumb_image: images/ventures/eden-julz.png

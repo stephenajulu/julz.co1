@@ -2,7 +2,7 @@
 title: BiomeID
 subtitle: Sovereign Blockchain National Digital Identity Platform
 date: '2026-10-12'
-weight: 12
+weight: 11
 category: Decentralized Identity
 brand_color: '#00b4d8'
 thumb_image: images/ventures/biomeid.png

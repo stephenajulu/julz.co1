@@ -2,7 +2,7 @@
 title: OwlSec Technologies
 subtitle: Cybersecurity, IT Consultation & Equipment Supplies
 date: '2026-10-07'
-weight: 7
+weight: 8
 category: Cybersecurity & Defense
 brand_color: '#f59e0b'
 thumb_image: images/ventures/owlsec.png

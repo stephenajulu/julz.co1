@@ -2,7 +2,7 @@
 title: AJU studio
 subtitle: Bespoke Design, Brand Identity & Digital Presence
 date: '2026-10-03'
-weight: 3
+weight: 2
 category: Design Studio & Atelier
 brand_color: '#f22c36'
 thumb_image: images/ventures/aju-studio.png

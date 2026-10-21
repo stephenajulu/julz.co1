@@ -2,7 +2,7 @@
 title: Fulcrum
 subtitle: Cinematic Video, Studio Photo Production & Media
 date: '2026-10-04'
-weight: 4
+weight: 3
 category: Production & Media Lab
 brand_color: '#542bff'
 thumb_image: images/ventures/fulcrum.png
