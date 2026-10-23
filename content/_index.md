@@ -5,7 +5,7 @@ sections:
   - type: hero_section
     section_id: hero
     title: >-
-      An independent research, design, development & engineering laboratory and holding company
+      An independent research, design, development & engineering laboratory
   - type: portfolio_section
     section_id: latest-projects
     layout_style: tiles
