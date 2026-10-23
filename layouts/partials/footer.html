@@ -1,18 +1,22 @@
+{{ $cfg := hugo.Data.config | default (site.Data.config | default dict) }}
+{{ $footer := $cfg.footer | default dict }}
 <footer id="colophon" class="site-footer">
   <div class="container container--lg">
     <div class="site-footer__inside">
       <div class="site-footer__info">
-        {{ if hugo.Data.config.footer.content }}
-        <span class="site-footer__copyright">{{ hugo.Data.config.footer.content | safeHTML }}</span>
+        {{ if $footer.content }}
+        <span class="site-footer__copyright">{{ $footer.content | safeHTML }}</span>
+        {{ else }}
+        <span class="site-footer__copyright">&copy; JULZ Technologies Corp. All rights reserved.</span>
         {{ end }}
-        {{ range $action := hugo.Data.config.footer.links }}
+        {{ range $action := $footer.links }}
           {{ $include_dict := dict "action" $action }}
           {{ partial "action_link.html" $include_dict }}
         {{ end }}
       </div>
-      {{ if hugo.Data.config.footer.has_social }}
+      {{ if $footer.has_social }}
       <div class="site-footer__social">
-        {{ range $action := hugo.Data.config.footer.social_links }}
+        {{ range $action := $footer.social_links }}
           {{ $include_dict := dict "action" $action }}
           {{ partial "action.html" $include_dict }}
         {{ end }}

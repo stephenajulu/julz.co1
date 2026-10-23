@@ -1,22 +1,24 @@
+{{ $cfg := hugo.Data.config | default (site.Data.config | default dict) }}
+{{ $header := $cfg.header | default dict }}
 <header id="masthead" class="site-header">
   <div class="container container--lg">
     <nav class="navbar" aria-label="Main Navigation">
-      {{ if hugo.Data.config.header.logo }}
+      {{ if $header.logo }}
       <div class="navbar__logo">
-        <a href="{{ "/" | relURL }}"><img src="{{ hugo.Data.config.header.logo | relURL }}" alt="{{ hugo.Data.config.header.logo_alt }}" /></a>
+        <a href="{{ "/" | relURL }}"><img src="{{ $header.logo | relURL }}" alt="{{ $header.logo_alt | default "JULZ" }}" /></a>
       </div>
       {{ else }}
       <div class="navbar__title">
-        <a href='{{ "/" | relURL }}'>{{ hugo.Data.config.header.title }}</a>
+        <a href='{{ "/" | relURL }}'>{{ $header.title | default "JULZ" }}</a>
       </div>
       {{ end }}
-      {{ if hugo.Data.config.header.has_nav }}
+      {{ if $header.has_nav }}
       <button id="navbar__open" class="navbar__toggle js-nav-toggle" aria-label="Open Navigation Menu"><span class="screen-reader-text">Open Menu</span><span class="icon-menu" aria-hidden="true"></span></button>
       <div class="navbar__menu-container">
         <div class="navbar__scroller">
           <button id="navbar__close" class="navbar__toggle js-nav-toggle" aria-label="Close Navigation Menu"><span class="screen-reader-text">Close Menu</span><span class="icon-close" aria-hidden="true"></span></button>
           <ul class="navbar__menu menu">
-            {{ range $action := hugo.Data.config.header.nav_links }}
+            {{ range $action := $header.nav_links }}
             {{ $pageUrl := trim $.RelPermalink "/" }}
             {{ $actionUrl := trim $action.url "/" }}
             <li class="menu__item{{ if eq $pageUrl $actionUrl }} menu__item--current{{ end }}{{ if ne $action.style "link" }} menu__item--button{{ end }}">

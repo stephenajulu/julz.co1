@@ -1,7 +1,13 @@
+{{ $cfg := hugo.Data.config | default (site.Data.config | default dict) }}
+{{ $font := $cfg.base_font | default "fraunces" }}
+{{ $palette := $cfg.color_scheme | default "dark" }}
+{{ $accent := $cfg.accent_color | default "purple" }}
+{{ $siteTitle := $cfg.title | default "JULZ" }}
+{{ $favicon := $cfg.favicon | default "images/favicon.svg" }}
 <!doctype html>
 <html lang="en">
     <head>    
-        <title>{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " hugo.Data.config.title }}{{ end }}</title>
+        <title>{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " $siteTitle }}{{ end }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
         <meta name="theme-color" content="#07080c" />
@@ -15,7 +21,7 @@
         <!-- OpenGraph & Twitter Core Fallbacks -->
         <meta property="og:site_name" content="JULZ" />
         <meta property="og:locale" content="en_US" />
-        <meta property="og:title" content="{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " hugo.Data.config.title }}{{ end }}" />
+        <meta property="og:title" content="{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " $siteTitle }}{{ end }}" />
         <meta property="og:description" content="{{ .Params.seo.description | default (.Params.excerpt | default (.Summary | default "Independent research, design, development and engineering conglomerate building sovereign technology and open-source infrastructure.")) }}" />
         <meta property="og:url" content="{{ .Permalink }}" />
         <meta property="og:type" content="{{ if eq .Section "blog" }}article{{ else }}website{{ end }}" />
@@ -30,14 +36,14 @@
         <meta name="twitter:image" content="{{ "images/about.jpg" | absURL }}" />
         {{ end }}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " hugo.Data.config.title }}{{ end }}" />
+        <meta name="twitter:title" content="{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " $siteTitle }}{{ end }}" />
         <meta name="twitter:description" content="{{ .Params.seo.description | default (.Params.excerpt | default (.Summary | default "Independent research, design, development and engineering conglomerate building sovereign technology and open-source infrastructure.")) }}" />
 
         {{ range $meta := .Params.seo.extra }}
           {{ $key_name := $meta.keyName | default "name" }}
           {{ if $meta.relativeUrl }}
-            {{ if hugo.Data.config.domain }}
-              {{ $domain := trim hugo.Data.config.domain "/" }}
+            {{ if $cfg.domain }}
+              {{ $domain := trim $cfg.domain "/" }}
               {{ $rel_url := $meta.value | relURL }}
               {{ $full_url := print $domain $rel_url }}
               <meta {{ $key_name }}="{{ $meta.name }}" content="{{ $full_url }}">
@@ -50,19 +56,19 @@
         <!-- Preconnect & Typography -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        {{ $font := hugo.Data.config.base_font | default "fraunces" }}
         {{ if eq $font "fraunces" }}
         <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
         {{ else if eq $font "karla" }}
         <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
         {{ end }}
 
-        <!-- Stylesheet -->
-        <link rel="stylesheet" href="{{ (resources.Get "sass/main.scss" | toCSS (dict "indentWidth" 4 "outputStyle" "compressed" "precision" 10 "targetPath" "css/main.css")).Permalink }}">
+        <!-- Stylesheet (Loaded via RelPermalink to ensure local & production same-origin resolution) -->
+        {{ $css := resources.Get "sass/main.scss" | toCSS (dict "indentWidth" 4 "outputStyle" "compressed" "precision" 10 "targetPath" "css/main.css") }}
+        <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
         <!-- Favicons & PWA -->
-        {{ if hugo.Data.config.favicon }}
-        <link rel="icon" type="image/svg+xml" href="{{ hugo.Data.config.favicon | relURL }}">
+        {{ if $favicon }}
+        <link rel="icon" type="image/svg+xml" href="{{ $favicon | relURL }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ "images/favicon-32x32.png" | relURL }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | relURL }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}">
@@ -74,7 +80,7 @@
         <!-- Structured Data (JSON-LD) -->
         {{ partial "schema.html" . }}
     </head>
-    <body class="font-{{ hugo.Data.config.base_font }} palette-{{ hugo.Data.config.color_scheme }} accent-{{ hugo.Data.config.accent_color }}">
+    <body class="font-{{ $font }} palette-{{ $palette }} accent-{{ $accent }}">
         <!-- Bead-blasted obsidian noise grain overlay -->
         <div class="noise-overlay" aria-hidden="true"></div>
 

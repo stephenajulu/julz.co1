@@ -2,7 +2,7 @@
 set -o errexit
 
 # Determine Hugo version from environment or default to 0.145.0 Extended
-HUGO_VER="${HUGO_VERSION:-0.145.0}"
+HUGO_VER="${HUGO_VERSION:-0.160.1}"
 
 # If hugo is not installed or not the extended edition, download the official extended binary
 if ! command -v hugo &> /dev/null || ! hugo version | grep -q "extended"; then
