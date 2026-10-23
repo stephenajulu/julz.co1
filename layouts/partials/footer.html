@@ -2,17 +2,17 @@
   <div class="container container--lg">
     <div class="site-footer__inside">
       <div class="site-footer__info">
-        {{ if .Site.Data.config.footer.content }}
-        <span class="site-footer__copyright">{{ $.Site.Data.config.footer.content | safeHTML }}</span>
+        {{ if hugo.Data.config.footer.content }}
+        <span class="site-footer__copyright">{{ hugo.Data.config.footer.content | safeHTML }}</span>
         {{ end }}
-        {{ range $action := .Site.Data.config.footer.links }}
+        {{ range $action := hugo.Data.config.footer.links }}
           {{ $include_dict := dict "action" $action }}
           {{ partial "action_link.html" $include_dict }}
         {{ end }}
       </div>
-      {{ if .Site.Data.config.footer.has_social }}
+      {{ if hugo.Data.config.footer.has_social }}
       <div class="site-footer__social">
-        {{ range $action := $.Site.Data.config.footer.social_links }}
+        {{ range $action := hugo.Data.config.footer.social_links }}
           {{ $include_dict := dict "action" $action }}
           {{ partial "action.html" $include_dict }}
         {{ end }}

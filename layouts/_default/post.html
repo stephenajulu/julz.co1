@@ -3,31 +3,69 @@
 <article class="post">
   <header class="post__header">
     <div class="container container--md">
+      <div class="post__telemetry">
+        <span class="telemetry-item">DISPATCH // {{ .Date | dateFormat "JAN 02, 2006" }}</span>
+        <span class="telemetry-separator">&bull;</span>
+        <span class="telemetry-item">{{ .ReadingTime }} MIN READ</span>
+        <span class="telemetry-separator">&bull;</span>
+        <span class="telemetry-item">{{ .WordCount }} WORDS</span>
+      </div>
       <h1 class="post__title line-top">{{ .Params.title }}</h1>
       {{ if .Params.subtitle }}
       <div class="post__subtitle">
-        {{ $.Params.subtitle }}
+        {{ .Params.subtitle }}
       </div>
       {{ end }}
     </div>
   </header>
+
   {{ if .Params.image }}
   <div class="post__image">
     <div class="container container--lg">
-      <img src="{{ $.Params.image | relURL }}" alt="{{ $.Params.image_alt }}" />
+      <img src="{{ .Params.image | relURL }}" alt="{{ .Params.image_alt | default .Title }}" loading="eager" />
     </div>
   </div>
   {{ end }}
-  <div class="post__body text-block">
-    <div class="container container--md">
-      {{ .Content }}
+
+  <div class="post__layout-wrapper container container--lg">
+    {{ if and .TableOfContents (ne .TableOfContents "<nav id=\"TableOfContents\"></nav>") }}
+    <aside class="post__toc-sidebar">
+      <div class="post__toc-inner">
+        <div class="toc-header">
+          <span class="toc-badge">OUTLINE // SECTIONS</span>
+        </div>
+        <nav class="post__toc-nav">
+          {{ .TableOfContents }}
+        </nav>
+      </div>
+    </aside>
+    {{ end }}
+
+    <div class="post__content-column">
+      <div class="post__body text-block">
+        {{ .Content }}
+      </div>
+
+      <!-- Colophon Signature -->
+      <footer class="post__colophon">
+        <div class="colophon__inner">
+          <div class="colophon__badge">JULZ // RESEARCH DISPATCH</div>
+          <div class="colophon__author">
+            <span class="author-name">Stephen Ajulu</span>
+            <span class="author-separator">&bull;</span>
+            <span class="author-title">Chief Architect & Founder</span>
+          </div>
+          <p class="colophon__statement">
+            Published by the <strong>JULZ Research Group</strong> as part of an ongoing open investigation into sovereign computation, managed open-source infrastructure, and human autonomy. All architectural blueprints, hardware specs, and codebases are open for peer review and replication.
+          </p>
+          <div class="colophon__links">
+            <a href="{{ "/blog/" | relURL }}" class="colophon__link">&larr; Back to All Dispatches</a>
+            <a href="{{ "/portfolio/" | relURL }}" class="colophon__link">Explore Sovereign Ventures &rarr;</a>
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
-  <footer class="post__meta">
-    <div class="container container--md">
-      Posted on <time class="published" datetime="{{ .Date | dateFormat "2006-01-02 15:04" }}">{{ .Date | dateFormat "January 02, 2006" }}</time>
-    </div>
-  </footer>
 </article>
 
 {{ $posts_sorted := ((.Site.GetPage "section" "/blog").Pages).ByDate.Reverse }}
@@ -39,7 +77,7 @@
     {{ $prev_index := sub $curr_index 1 }}
     {{ $post_index_length := sub $post_item_len 1 }}
     {{ if gt $post_index_length 0 }}
-    <nav class="section section--posts">
+    <nav class="section section--posts" aria-label="Related Dispatches">
       <div class="container container--lg">
         <h2 class="section__title line-top">Read Next</h2>
         <div class="grid post-feed post-feed--col-two">

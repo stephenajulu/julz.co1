@@ -1,9 +1,28 @@
 title: JULZ
-baseURL: /
+baseURL: "https://julz.co/"
+languageCode: en-us
+enableRobotsTXT: true
+
 disableKinds:
   - RSS
   - taxonomy
+
 markup:
   goldmark:
     renderer:
       unsafe: true
+    extensions:
+      typographer: true
+      definitionList: true
+      table: true
+  tableOfContents:
+    endLevel: 4
+    ordered: false
+    startLevel: 2
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    noClasses: false
+    style: monokai

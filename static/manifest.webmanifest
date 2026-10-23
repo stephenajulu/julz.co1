@@ -1,0 +1,30 @@
+{
+  "name": "JULZ — Sovereign Tech Conglomerate",
+  "short_name": "JULZ",
+  "description": "Independent research, design, development and engineering conglomerate building sovereign technology and open-source infrastructure.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07080c",
+  "theme_color": "#07080c",
+  "categories": ["technology", "business", "productivity"],
+  "icons": [
+    {
+      "src": "/images/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/favicon-32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/images/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}

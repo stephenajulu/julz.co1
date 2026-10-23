@@ -1,0 +1,92 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Corporation",
+      "@id": "https://julz.co/#organization",
+      "name": "JULZ",
+      "legalName": "JULZ Technologies Corp.",
+      "url": "https://julz.co/",
+      "logo": "https://julz.co/images/logo.svg",
+      "image": "https://julz.co/images/about.jpg",
+      "description": "Independent research, design, development and engineering conglomerate building sovereign technology, decentralized appliances, and managed open-source infrastructure.",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Nairobi, Kenya"
+      },
+      "founder": {
+        "@type": "Person",
+        "@id": "https://aju.lu/#person",
+        "name": "Stephen Ajulu",
+        "jobTitle": "Chief Architect & Founder",
+        "url": "https://aju.lu",
+        "sameAs": [
+          "https://github.com/stephenajulu",
+          "https://x.com/stephenajulu"
+        ]
+      },
+      "knowsAbout": [
+        "Digital Sovereignty",
+        "Managed Open Source Business Infrastructure",
+        "Decentralized Silicon & Hardware Appliances",
+        "Personal AI Infrastructure",
+        "Biomimetic Networks",
+        "Bespoke Brand & Digital Architecture",
+        "Autonomous Cybernetic Systems"
+      ],
+      "sameAs": [
+        "https://x.com/julz",
+        "https://www.instagram.com/julz",
+        "https://github.com/stephenajulu/julz.co1"
+      ]
+    }
+    {{ if and (eq .Section "blog") .IsPage }}
+    ,{
+      "@type": "TechArticle",
+      "@id": "{{ .Permalink }}#article",
+      "isPartOf": {
+        "@type": "WebPage",
+        "@id": "{{ .Permalink }}"
+      },
+      "headline": {{ .Title | jsonify }},
+      "description": {{ (.Params.excerpt | default .Summary) | jsonify }},
+      "inLanguage": "en-US",
+      "mainEntityOfPage": "{{ .Permalink }}",
+      "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+      "dateModified": "{{ (.Lastmod | default .Date).Format "2006-01-02T15:04:05Z07:00" }}",
+      "author": {
+        "@type": "Person",
+        "name": "Stephen Ajulu",
+        "jobTitle": "Chief Architect",
+        "url": "https://aju.lu"
+      },
+      "publisher": {
+        "@id": "https://julz.co/#organization"
+      }
+      {{ if .Params.image }}
+      ,"image": "{{ .Params.image | absURL }}"
+      {{ else if .Params.thumb_image }}
+      ,"image": "{{ .Params.thumb_image | absURL }}"
+      {{ end }}
+    }
+    {{ else if and (eq .Section "portfolio") .IsPage }}
+    ,{
+      "@type": "SoftwareApplication",
+      "@id": "{{ .Permalink }}#product",
+      "name": {{ .Title | jsonify }},
+      "headline": {{ (.Params.subtitle | default .Title) | jsonify }},
+      "applicationCategory": {{ (.Params.category | default "Enterprise Technology") | jsonify }},
+      "operatingSystem": "Linux, Bare-metal, Sovereign Cloud",
+      "url": "{{ .Permalink }}",
+      "brand": {
+        "@id": "https://julz.co/#organization"
+      }
+      {{ if .Params.thumb_image }}
+      ,"image": "{{ .Params.thumb_image | absURL }}"
+      {{ end }}
+    }
+    {{ end }}
+  ]
+}
+</script>

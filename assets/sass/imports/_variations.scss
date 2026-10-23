@@ -25,6 +25,39 @@
     border-color: rgba(255, 255, 255, 0.1);
   }
 
+  // Ultra-fine bead-blasted obsidian noise grain
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.032;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 160px 160px;
+  }
+
+  // Accessibility skip-link
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    background: #542bff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    z-index: 10000;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: top 0.2s ease;
+
+    &:focus {
+      top: 1rem;
+    }
+  }
+
   // Sticky Header with Blur & Hairline Border
   .site-header {
     position: sticky;
@@ -113,20 +146,48 @@
     color: #475569;
   }
 
-  // Subtle Elevated Card / Shadow Surfaces
-  .project-card {
+  // Subtle Elevated Card / Shadow Surfaces with Cursor-Aware Spotlight
+  .project-card,
+  .post-card,
+  .card {
+    position: relative;
     background: rgba(14, 18, 28, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+
+    // Ambient cursor spotlight layer
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+        rgba(84, 43, 255, 0.14),
+        transparent 70%
+      );
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      z-index: 2;
+    }
 
     &:hover {
       transform: translateY(-4px);
-      border-color: rgba(84, 43, 255, 0.4);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(84, 43, 255, 0.16);
+      border-color: rgba(84, 43, 255, 0.45);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(84, 43, 255, 0.18);
 
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  .project-card {
+    &:hover {
       .project-card__image img {
         transform: scale(1.03);
       }
@@ -167,18 +228,7 @@
   }
 
   .post-card {
-    background: rgba(14, 18, 28, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-
     &:hover {
-      transform: translateY(-4px);
-      border-color: rgba(84, 43, 255, 0.4);
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(84, 43, 255, 0.16);
-
       .post-card__image img {
         transform: scale(1.03);
       }
@@ -237,17 +287,299 @@
   }
 
   .card {
-    background: rgba(14, 18, 28, 0.7);
+    padding: 1.5rem;
+  }
+
+  // Post Header Telemetry & Metadata
+  .post__telemetry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #542bff;
+    margin-bottom: 0.85rem;
+
+    .telemetry-separator {
+      opacity: 0.35;
+      color: #94a3b8;
+    }
+
+    .telemetry-item {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  // Sticky Table of Contents & Article Layout
+  .post__layout-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+
+    @media only screen and (min-width: 1080px) {
+      grid-template-columns: 240px minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+
+  .post__toc-sidebar {
+    display: none;
+
+    @media only screen and (min-width: 1080px) {
+      display: block;
+      position: sticky;
+      top: 6rem;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+      padding-right: 1.5rem;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
+
+      &::-webkit-scrollbar {
+        width: 3px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 2px;
+      }
+    }
+  }
+
+  .toc-header {
+    margin-bottom: 0.85rem;
+
+    .toc-badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+  }
+
+  .post__toc-nav {
+    #TableOfContents {
+      ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+
+        ul {
+          padding-left: 0.85rem;
+        }
+
+        li {
+          margin-bottom: 0.45rem;
+          line-height: 1.35;
+
+          a {
+            color: #94a3b8;
+            font-size: 0.82rem;
+            text-decoration: none;
+            border: none;
+            transition: color 0.2s ease, padding-left 0.2s ease;
+
+            &:hover {
+              color: #a58aff;
+              padding-left: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Colophon Signatures
+  .post__colophon {
+    margin-top: 4rem;
+    padding: 2rem 2.2rem;
+    background: rgba(14, 18, 28, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-    padding: 1.5rem;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+
+    .colophon__badge {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: #542bff;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .colophon__author {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      color: #ffffff;
+      margin-bottom: 0.85rem;
+
+      .author-name {
+        font-weight: 600;
+      }
+
+      .author-separator {
+        opacity: 0.4;
+        color: #64748b;
+      }
+
+      .author-title {
+        color: #94a3b8;
+        font-size: 0.88rem;
+      }
+    }
+
+    .colophon__statement {
+      color: #94a3b8;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .colophon__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+
+      .colophon__link {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.05em;
+        color: #a58aff;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(84, 43, 255, 0.3);
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: #ffffff;
+          border-bottom-color: #542bff;
+        }
+      }
+    }
+  }
+
+  // Chroma Syntax Highlighting & Code Blocks
+  .highlight,
+  .text-block pre {
+    position: relative;
+    background: #090c14 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    overflow-x: auto;
+    margin: 1.8rem 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+    code {
+      font-family: "JetBrains Mono", "SF Mono", Consolas, Menlo, monospace;
+      font-size: 0.86rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+    }
+  }
+
+  .text-block code:not(pre code) {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85em;
+    background: rgba(84, 43, 255, 0.12);
+    color: #c4b5fd;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    border: 1px solid rgba(84, 43, 255, 0.2);
+  }
+
+  .code-copy-btn {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.6rem;
+    background: rgba(255, 255, 255, 0.06);
+    color: #94a3b8;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
 
     &:hover {
-      transform: translateY(-3px);
-      border-color: rgba(84, 43, 255, 0.3);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(84, 43, 255, 0.12);
+      background: rgba(84, 43, 255, 0.25);
+      color: #ffffff;
+      border-color: rgba(84, 43, 255, 0.5);
+    }
+
+    &.is-copied {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.5);
+    }
+  }
+
+  // Authoritative Thesis / Manifesto Styling
+  .manifesto-lead {
+    margin-bottom: 2rem;
+
+    .telemetry-badge {
+      display: inline-block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #542bff;
+      margin-bottom: 0.75rem;
+    }
+
+    .manifesto-heading {
+      font-size: 2.2rem;
+      font-weight: 500;
+      line-height: 1.25;
+      color: #ffffff;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.02em;
+
+      @media (min-width: 768px) {
+        font-size: 2.75rem;
+      }
+    }
+
+    .manifesto-intro {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: #cbd5e1;
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .manifesto-signature {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    p {
+      font-size: 1.1rem;
+      color: #e2e8f0;
+      margin-bottom: 0.5rem;
+    }
+
+    .signature-author {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+      color: #94a3b8;
     }
   }
 

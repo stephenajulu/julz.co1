@@ -1,21 +1,43 @@
 <!doctype html>
 <html lang="en">
     <head>    
-
-        <title>{{ if .Params.seo.title }}{{ $.Params.seo.title }}{{ else }}{{ print print $.Title " | " $.Site.Data.config.title }}{{ end }}</title>
+        <title>{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " hugo.Data.config.title }}{{ end }}</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#542bff" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        <meta name="theme-color" content="#07080c" />
+        <meta name="color-scheme" content="dark" />
         <meta name="google" content="notranslate" />
-        <meta name="description" content="{{ .Params.seo.description | default "" }}" />
-        {{ if .Params.seo.robots }}
-        <meta name="robots" content="{{ delimit $.Params.seo.robots "," }}">
+        <meta name="description" content="{{ .Params.seo.description | default (.Params.excerpt | default (.Summary | default "JULZ is an independent research, design, development and engineering conglomerate building sovereign technology and open-source infrastructure.")) }}" />
+        <link rel="canonical" href="{{ .Permalink }}" />
+        
+        <meta name="robots" content="{{ if .Params.seo.robots }}{{ delimit .Params.seo.robots "," }}{{ else }}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{{ end }}">
+        
+        <!-- OpenGraph & Twitter Core Fallbacks -->
+        <meta property="og:site_name" content="JULZ" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:title" content="{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " hugo.Data.config.title }}{{ end }}" />
+        <meta property="og:description" content="{{ .Params.seo.description | default (.Params.excerpt | default (.Summary | default "Independent research, design, development and engineering conglomerate building sovereign technology and open-source infrastructure.")) }}" />
+        <meta property="og:url" content="{{ .Permalink }}" />
+        <meta property="og:type" content="{{ if eq .Section "blog" }}article{{ else }}website{{ end }}" />
+        {{ if .Params.image }}
+        <meta property="og:image" content="{{ .Params.image | absURL }}" />
+        <meta name="twitter:image" content="{{ .Params.image | absURL }}" />
+        {{ else if .Params.thumb_image }}
+        <meta property="og:image" content="{{ .Params.thumb_image | absURL }}" />
+        <meta name="twitter:image" content="{{ .Params.thumb_image | absURL }}" />
+        {{ else }}
+        <meta property="og:image" content="{{ "images/about.jpg" | absURL }}" />
+        <meta name="twitter:image" content="{{ "images/about.jpg" | absURL }}" />
         {{ end }}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="{{ if .Params.seo.title }}{{ .Params.seo.title }}{{ else }}{{ print .Title " | " hugo.Data.config.title }}{{ end }}" />
+        <meta name="twitter:description" content="{{ .Params.seo.description | default (.Params.excerpt | default (.Summary | default "Independent research, design, development and engineering conglomerate building sovereign technology and open-source infrastructure.")) }}" />
+
         {{ range $meta := .Params.seo.extra }}
           {{ $key_name := $meta.keyName | default "name" }}
           {{ if $meta.relativeUrl }}
-            {{ if $.Site.Data.config.domain }}
-              {{ $domain := trim $.Site.Data.config.domain "/" }}
+            {{ if hugo.Data.config.domain }}
+              {{ $domain := trim hugo.Data.config.domain "/" }}
               {{ $rel_url := $meta.value | relURL }}
               {{ $full_url := print $domain $rel_url }}
               <meta {{ $key_name }}="{{ $meta.name }}" content="{{ $full_url }}">
@@ -24,34 +46,57 @@
             <meta {{ $key_name }}="{{ $meta.name }}" content="{{ $meta.value }}">
           {{ end }}
         {{ end }}
-        {{ $font := .Site.Data.config.base_font | default "fraunces" }}
-        {{ if ne $font "system-sans" }}
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        {{ end }}
+
+        <!-- Preconnect & Typography -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        {{ $font := hugo.Data.config.base_font | default "fraunces" }}
         {{ if eq $font "fraunces" }}
-        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
         {{ else if eq $font "karla" }}
-        <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
         {{ end }}
-        <link rel="stylesheet" href="{{ (resources.Get "sass/main.scss" | toCSS (dict "indentWidth" 4 "outputStyle" "nested" "precision" 10 "targetPath" "css/main.css")).Permalink }}">
-        {{ if .Site.Data.config.favicon }}
-        <link rel="icon" type="image/svg+xml" href="{{ $.Site.Data.config.favicon | relURL }}">
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="{{ (resources.Get "sass/main.scss" | toCSS (dict "indentWidth" 4 "outputStyle" "compressed" "precision" 10 "targetPath" "css/main.css")).Permalink }}">
+
+        <!-- Favicons & PWA -->
+        {{ if hugo.Data.config.favicon }}
+        <link rel="icon" type="image/svg+xml" href="{{ hugo.Data.config.favicon | relURL }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ "images/favicon-32x32.png" | relURL }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | relURL }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}">
+        <link rel="manifest" href="{{ "manifest.webmanifest" | relURL }}">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         {{ end }}
-        
+
+        <!-- Structured Data (JSON-LD) -->
+        {{ partial "schema.html" . }}
     </head>
-    <body class="font-{{ .Site.Data.config.base_font }} palette-{{ .Site.Data.config.color_scheme }} accent-{{ .Site.Data.config.accent_color }}">
+    <body class="font-{{ hugo.Data.config.base_font }} palette-{{ hugo.Data.config.color_scheme }} accent-{{ hugo.Data.config.accent_color }}">
+        <!-- Bead-blasted obsidian noise grain overlay -->
+        <div class="noise-overlay" aria-hidden="true"></div>
+
+        <a href="#content" class="screen-reader-text skip-link">Skip to main content</a>
         
         <div id="site-wrap" class="site">
           {{ partial "header.html" . }}
-          <main id="content" class="site-content">
+          <main id="content" class="site-content" role="main">
             {{ block "content" . }}{{ end }}
           </main>
           {{ partial "footer.html" . }}
         </div>
+
         <script src="{{ "js/init.js" | relURL }}"></script>
         <script src="{{ "js/page-load.js" | relURL }}"></script>
+        <script>
+          // PWA Service Worker Registration
+          if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+            window.addEventListener('load', function() {
+              navigator.serviceWorker.register('{{ "sw.js" | relURL }}').catch(function() {});
+            });
+          }
+        </script>
     </body> 
 </html>

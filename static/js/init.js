@@ -55,3 +55,60 @@ window.addEventListener('resize', function () {
     document.body.classList.remove('js-nav-open');
   }
 }, true);
+
+// Cursor-aware spotlight for cards
+function initCardSpotlights() {
+  const cards = document.querySelectorAll('.project-card, .post-card, .card');
+  cards.forEach(function(card) {
+    if (card.__hasSpotlight) return;
+    card.__hasSpotlight = true;
+    card.addEventListener('pointermove', function(e) {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+      card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+    });
+    card.addEventListener('pointerleave', function() {
+      card.style.removeProperty('--mouse-x');
+      card.style.removeProperty('--mouse-y');
+    });
+  });
+}
+
+// Code Copy Button for Chroma syntax blocks
+function initCodeCopyButtons() {
+  const codeBlocks = document.querySelectorAll('.highlight, pre:not(.chroma pre)');
+  codeBlocks.forEach(function(block) {
+    if (block.querySelector('.code-copy-btn')) return;
+    const btn = document.createElement('button');
+    btn.className = 'code-copy-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Copy code to clipboard');
+    btn.innerText = 'COPY';
+    
+    btn.addEventListener('click', function() {
+      const code = block.querySelector('code') || block;
+      const text = code.innerText;
+      navigator.clipboard.writeText(text).then(function() {
+        btn.innerText = 'COPIED';
+        btn.classList.add('is-copied');
+        setTimeout(function() {
+          btn.innerText = 'COPY';
+          btn.classList.remove('is-copied');
+        }, 2000);
+      });
+    });
+    block.style.position = 'relative';
+    block.appendChild(btn);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initCardSpotlights();
+  initCodeCopyButtons();
+});
+
+// Re-init on page load transition if applicable
+window.addEventListener('load', function() {
+  initCardSpotlights();
+  initCodeCopyButtons();
+});
