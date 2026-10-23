@@ -1,4 +1,4 @@
-{{ $cfg := hugo.Data.config | default (site.Data.config | default dict) }}
+{{ $cfg := site.Data.config | default dict }}
 {{ $font := $cfg.base_font | default "fraunces" }}
 {{ $palette := $cfg.color_scheme | default "dark" }}
 {{ $accent := $cfg.accent_color | default "purple" }}

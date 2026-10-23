@@ -1,4 +1,4 @@
-{{ $cfg := hugo.Data.config | default (site.Data.config | default dict) }}
+{{ $cfg := site.Data.config | default dict }}
 {{ $footer := $cfg.footer | default dict }}
 <footer id="colophon" class="site-footer">
   <div class="container container--lg">

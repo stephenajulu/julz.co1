@@ -1,4 +1,4 @@
-{{ $cfg := hugo.Data.config | default (site.Data.config | default dict) }}
+{{ $cfg := site.Data.config | default dict }}
 {{ $header := $cfg.header | default dict }}
 <header id="masthead" class="site-header">
   <div class="container container--lg">
