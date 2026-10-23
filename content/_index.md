@@ -9,10 +9,10 @@ sections:
   - type: portfolio_section
     section_id: latest-projects
     layout_style: tiles
-    title: Ventures & Systems
-    subtitle: Explore our sovereign ventures, studios, and specialized technological architectures.
-    projects_number: 12
-    view_all_label: View All Ventures
+    title: 
+    subtitle: 
+    projects_number: 4
+    view_all_label:
     view_all_url: portfolio
 seo:
   title: JULZ - Independent research, design, development and engineering
